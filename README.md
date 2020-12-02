@@ -1,6 +1,3 @@
-# STM32-LCD-Library
-16x2 LCD Library - Compatible with All STM32 Boards
-
 ## LCD (16x2) Library v1 For STM32
 **Compatible with All STM32 Boards**
 
