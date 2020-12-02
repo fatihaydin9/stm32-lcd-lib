@@ -22,6 +22,3 @@ Select port and pins which is suitable for your device. Then, you can configure 
 
 #### Example
 main.c file has an example for test your library works correct or not.
-
-All the best,
-Fatih.
