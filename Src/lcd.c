@@ -4,54 +4,63 @@
  *  Created on: Dec 1, 2020
  *      Author: fatay
  */
-
-
-/*
- *
- * #define GPIO_PORT GPIOC
- * #define DATA_PIN1 1
- * #define DATA_PIN2 2
- * #define DATA_PIN3 3
- * #define DATA_PIN4 4
- *
- * #define E_PIN  5
- * #define RS_PIN 6
-*/
 #include "lcd.h"
+
+#define SET_IF(expr)  ((expr) ? GPIO_PIN_SET : GPIO_PIN_RESET)
+char display_settings;
 
 //Sending falling edge signal to EPin for waking up LCD
 static void fallingEdge(void) {
-    HAL_GPIO_WritePin(GPIO_PORT, E_PIN, GPIO_PIN_SET);
-    HAL_Delay(1);
-    HAL_GPIO_WritePin(GPIO_PORT, E_PIN, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIO_PORT, E_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIO_PORT, E_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIO_PORT, E_Pin, GPIO_PIN_RESET);
     HAL_Delay(1);
 }
 
-// sending 4 bits
-static void send4Bits(char data) {
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN1, data & 0x01);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN2, data & 0x02);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN3, data & 0x04);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN4, data & 0x08);
+#ifndef LCD8Bit
+	static void send4Bits(char data) {
+		HAL_GPIO_WritePin(GPIO_PORT, DATA5_Pin, SET_IF(data&0x01));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA6_Pin, SET_IF(data&0x02));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA7_Pin, SET_IF(data&0x04));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA8_Pin, SET_IF(data&0x08));
 
-    fallingEdge();
-}
+		fallingEdge();
+	}
+#endif
+
+#ifdef LCD8Bit
+	static void send8Bits(char val) {
+
+		HAL_GPIO_WritePin(GPIO_PORT, DATA1_Pin, SET_IF(val&0x01));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA2_Pin, SET_IF(val&0x02));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA3_Pin, SET_IF(val&0x04));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA4_Pin, SET_IF(val&0x08));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA5_Pin, SET_IF(val&0x10));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA6_Pin, SET_IF(val&0x20));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA7_Pin, SET_IF(val&0x40));
+		HAL_GPIO_WritePin(GPIO_PORT, DATA8_Pin, SET_IF(val&0x80));
+
+		fallingEdge();
+	}
+#endif
 
 static void sendCommand(char cmd) {
-    HAL_GPIO_WritePin(GPIO_PORT, RS_PIN, GPIO_PIN_RESET);
-	#if LCD8Bit
-	send8Bits(cmd);
+	#ifdef LCD8Bit
+    	HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, GPIO_PIN_RESET);
+		send8Bits(cmd);
 	#else
+	    HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, GPIO_PIN_RESET);
 		send4Bits(cmd >> 4);
 		send4Bits(cmd);
 	#endif
 }
 
-void sendData(char data) {
-    HAL_GPIO_WritePin(GPIO_PORT, RS_PIN, GPIO_PIN_SET);
-	#if LCD8Bit
-	send8Bits(data);
+static void sendData(char data) {
+	#ifdef LCD8Bit
+    	HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, GPIO_PIN_SET);
+		send8Bits(data);
 	#else
+	    HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, GPIO_PIN_SET);
 		send4Bits(data >> 4);
 		send4Bits(data);
 	#endif
@@ -63,55 +72,51 @@ void clearLCD(void) {
 }
 
 void putLCD(char c) {
-    HAL_GPIO_WritePin(GPIO_PORT, RS_PIN, GPIO_PIN_SET);
 	sendData(c);
-    HAL_GPIO_WritePin(GPIO_PORT, RS_PIN, GPIO_PIN_RESET);
 }
 
 void writeLCD (char *str) {
-    HAL_GPIO_WritePin(GPIO_PORT, RS_PIN, GPIO_PIN_SET);
-    while (*str != '\0') {
-    	sendData((char) *str++);
-    }
+	for(; *str != 0; ++str) {
+		sendData(*str);
+	}
 }
 
 void initLCD(void) {
+    HAL_GPIO_WritePin(GPIO_PORT, E_Pin,  	 GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, 	 GPIO_PIN_RESET);
 
-    HAL_GPIO_WritePin(GPIO_PORT, E_PIN,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, RS_PIN, GPIO_PIN_RESET);
-
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN1,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN2,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN3,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN4,  GPIO_PIN_RESET);
+	HAL_Delay(50);
 
 	#ifdef LCD8Bit
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN5,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN6,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN7,  GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIO_PORT, DATA_PIN8,  GPIO_PIN_RESET);
+		display_settings = LCD_8BITMODE | LCD_2LINE | LCD_5x8DOTS;
+		sendCommand(LCD_FUNCTIONSET | display_settings);
+		HAL_Delay(5);
+		sendCommand(LCD_FUNCTIONSET | display_settings);
+		HAL_Delay(5);
+		sendCommand(LCD_FUNCTIONSET | display_settings);
+		HAL_Delay(5);
+
+	#else
+		display_settings = LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS;
+		send4Bits(0x03);
+		HAL_Delay(5);
+		send4Bits(0x03);
+		HAL_Delay(5);
+		send4Bits(0x03);
+		HAL_Delay(2);
+		send4Bits(0x02);
+		HAL_Delay(2);
 	#endif
+		sendCommand(LCD_FUNCTIONSET | display_settings);
+		display_settings = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+		sendCommand(LCD_DISPLAYCONTROL | display_settings);
+		HAL_Delay(2);
 
-	HAL_Delay(150);
+		clearLCD();
+		display_settings =  LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+		sendCommand(LCD_ENTRYMODESET | display_settings);
+		HAL_Delay(2);
 
-    send4Bits(0x03);
-    HAL_Delay(10);
-    send4Bits(0x03);
-    HAL_Delay(5);
-    send4Bits(0x03);
-    HAL_Delay(2);
-    send4Bits(0x02);
-    HAL_Delay(2);
-
-    sendCommand(0x20 | 0x08);	//set parameters
-    HAL_Delay(2);
-    sendCommand(0x08 | 0x04);	//display on
-    HAL_Delay(2);
-    sendCommand(0x01);			//clear screen
-    HAL_Delay(2);
-    sendCommand(0x04 | 0x02);	//entry mode set
-    //Entry mode command sets cursor move direction
-    HAL_Delay(2);
 }
 
 
@@ -137,4 +142,3 @@ void cursorOn(void) {
 void blinkOn(void) {
 	sendCommand(0x08 | 0x04 | 0x01);
 }
-

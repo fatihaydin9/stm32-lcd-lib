@@ -5,25 +5,23 @@
 #define GPIO_PORT GPIOC
 
 //4 pin mode -> pins
-#define DATA_PIN1 GPIO_PIN_1
-#define DATA_PIN2 GPIO_PIN_2
-#define DATA_PIN3 GPIO_PIN_3
-#define DATA_PIN4 GPIO_PIN_4
+#define DATA5_Pin GPIO_PIN_5
+#define DATA6_Pin GPIO_PIN_6
+#define DATA7_Pin GPIO_PIN_7
+#define DATA8_Pin GPIO_PIN_8
 
-#define E_PIN  GPIO_PIN_5
-#define RS_PIN GPIO_PIN_6
+#define RS_Pin GPIO_PIN_9
+#define E_Pin  GPIO_PIN_10
 //RW Pin not used,connect to GND
 
 //if 8-bit mode selected;
-/*
-#define LCD8Bit
-#define DATA_PIN5 GPIO_PIN_5
-#define DATA_PIN6 GPIO_PIN_6
-#define DATA_PIN7 GPIO_PIN_7
-#define DATA_PIN8 GPIO_PIN_8
-*/
 
-/******** CONFIG ENDS HERE *********/
+#define LCD8Bit
+#define DATA1_Pin GPIO_PIN_1
+#define DATA2_Pin GPIO_PIN_2
+#define DATA3_Pin GPIO_PIN_3
+#define DATA4_Pin GPIO_PIN_4
+
 
 
 #endif /* INC_LCD_CONFIG_H_ */

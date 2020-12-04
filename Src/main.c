@@ -72,7 +72,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
   /* USER CODE END Init */
@@ -94,7 +94,6 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   initLCD();
-
   char *stl = "Github: @fatay";
   writeLCD(stl);
   char *ttl = "LCD Library";
@@ -206,8 +205,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, DATA_PIN1_Pin|DATA_PIN2_Pin|DATA_PIN3_Pin|DATA_PIN4_Pin
-                          |E_PIN_Pin|RS_PIN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, DATA1_Pin|DATA2_Pin|DATA3_Pin|DATA4_Pin
+                          |DATA5_Pin|DATA6_Pin|DATA7_Pin|DATA8_Pin
+                          |RS_Pin|E_Pin|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
@@ -218,10 +218,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DATA_PIN1_Pin DATA_PIN2_Pin DATA_PIN3_Pin DATA_PIN4_Pin
-                           E_PIN_Pin RS_PIN_Pin */
-  GPIO_InitStruct.Pin = DATA_PIN1_Pin|DATA_PIN2_Pin|DATA_PIN3_Pin|DATA_PIN4_Pin
-                          |E_PIN_Pin|RS_PIN_Pin;
+  /*Configure GPIO pins : DATA1_Pin DATA2_Pin DATA3_Pin DATA4_Pin
+                           DATA5_Pin DATA6_Pin DATA7_Pin DATA8_Pin
+                           RS_Pin E_Pin PC11 PC12 */
+  GPIO_InitStruct.Pin = DATA1_Pin|DATA2_Pin|DATA3_Pin|DATA4_Pin
+                          |DATA5_Pin|DATA6_Pin|DATA7_Pin|DATA8_Pin
+                          |RS_Pin|E_Pin|GPIO_PIN_11|GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
