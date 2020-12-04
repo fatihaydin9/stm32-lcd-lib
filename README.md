@@ -24,7 +24,7 @@ Select port and pins which is suitable for your device.
 
 ```
 **8 Bit Mode Installation**  
-If you want to work with 8 bit mode, you should be uncomment this area in "lcd_config.h" and then you can configure pins.
+If you want to work with 8 bit mode, you should be uncomment this area in "lcd_config.h". Then, you can configure pins.
 ```c
 //if 8-bit mode selected;
 
