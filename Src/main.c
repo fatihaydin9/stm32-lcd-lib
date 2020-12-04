@@ -94,18 +94,18 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   initLCD();
-  //putLCD('F');
-  //putLCD('A');
+
   char *stl = "Github: @fatay";
-  setCursorToFirstLine();
   writeLCD(stl);
+  char *ttl = "LCD Library";
+  setCursor(0,1);
+  writeLCD(ttl);
 
 
   while (1)
   {
     /* USER CODE END WHILE */
-	  setCursorToSecondLine();
-	  putLCD('k');
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
