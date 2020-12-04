@@ -4,8 +4,11 @@
 This library provides to using STM32 and LCD together. This library debugged and tested on Nucleo F303RE and STM32F4 Discovery Boards. 
 
 ### Installing The LCD Library
+
+`'Open lcd_config.h file with text editor.'`
+
 **4 Bit(Default) Mode Installation**
-Select port and pins which is suitable for your device. Then, open lcd_config.h file with text editor.
+Select port and pins which is suitable for your device. 
 
 ```c
 /* CONFIG FOR LIBRARY USER */
