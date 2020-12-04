@@ -1,7 +1,7 @@
 ## LCD (16x2) Library For STM32
 **Compatible with All STM32 Boards**
 
-This library provides to using STM32 and LCD together. This library debugged and tested on Nucleo F303RE and STM32F4 Discovery Boards. So if your device is different, you should be change header files which is used by your STM32 MCU Compiler.
+This library provides to using STM32 and LCD together. This library debugged and tested on Nucleo F303RE and STM32F4 Discovery Boards. 
 
 ### Installing The LCD Library
 **4 Bit(Default) Mode Installation**
