@@ -36,5 +36,5 @@ If you want to work with 8 bit mode, you should be uncomment this area in "lcd_c
 
 ```
 
-#### Example
+#### Example  
 main.c file has an example to test your library works correctly or not.
