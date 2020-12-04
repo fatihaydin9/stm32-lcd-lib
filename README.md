@@ -5,7 +5,7 @@ This library provides to using STM32 and LCD together. This library debugged and
 
 ### Installing The LCD Library
 
-`'Open lcd_config.h file with text editor.'`
+`Open lcd_config.h file with text editor.`
 
 **4 Bit(Default) Mode Installation**
 Select port and pins which is suitable for your device. 
