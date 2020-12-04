@@ -34,4 +34,4 @@ If you want to 8 bit mode, you should be uncomment this area in "lcd_config.h" a
 ```
 
 #### Example
-main.c file has an example to test your library works correct or not.
+main.c file has an example to test your library works correctly or not.
