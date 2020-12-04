@@ -16,12 +16,13 @@
 
 //if 8-bit mode selected;
 
+/*
 #define LCD8Bit
 #define DATA1_Pin GPIO_PIN_1
 #define DATA2_Pin GPIO_PIN_2
 #define DATA3_Pin GPIO_PIN_3
 #define DATA4_Pin GPIO_PIN_4
-
+*/
 
 
 #endif /* INC_LCD_CONFIG_H_ */
