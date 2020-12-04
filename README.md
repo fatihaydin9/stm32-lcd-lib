@@ -7,7 +7,7 @@ This library provides to using STM32 and LCD together. This library debugged and
 
 `Open lcd_config.h file with text editor.`  
 
-**4 Bit(Default) Mode Installation**  
+**4 Bit(Default) Mode Installation**   
 Select port and pins which is suitable for your device. 
 
 ```c
@@ -23,7 +23,7 @@ Select port and pins which is suitable for your device.
 #define RS_PIN GPIO_PIN_6
 
 ```
-**8 Bit Mode Installation**
+**8 Bit Mode Installation**  
 If you want to 8 bit mode, you should be uncomment this area in "lcd_config.h" and then you can configure pins.
 ```c
 //if 8-bit mode selected;
