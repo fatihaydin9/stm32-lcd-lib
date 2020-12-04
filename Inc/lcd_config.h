@@ -14,7 +14,7 @@
 #define E_Pin  GPIO_PIN_10
 //RW Pin not used,connect to GND
 
-//if you want to work with 8 bit mode uncomment the area which is given below;
+//if you want to work with 8 bit mode uncomment the area which is given below
 
 /*
 #define LCD8Bit
