@@ -4,8 +4,8 @@
  *  Created on: Dec 1, 2020
  *      Author: fatay
  */
+#include <stdint.h>
 #include "lcd.h"
-#include "stdint.h"
 
 #define SET_IF(expr)  ((expr) ? GPIO_PIN_SET : GPIO_PIN_RESET)
 char display_settings;
