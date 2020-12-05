@@ -5,6 +5,7 @@
  *      Author: fatay
  */
 #include "lcd.h"
+#include "stdint.h"
 
 #define SET_IF(expr)  ((expr) ? GPIO_PIN_SET : GPIO_PIN_RESET)
 char display_settings;
@@ -122,7 +123,7 @@ void initLCD(void) {
 
 void setCursor(char x, char y) {
 
-	unsigned int base = 0;
+	uint8_t base = 0;
 
 	if(y==1) {
 		base = 0x40;
