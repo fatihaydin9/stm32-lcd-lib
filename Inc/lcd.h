@@ -73,6 +73,5 @@ void writeLCD(char *str);
 void setCursor(char x,char y);
 void cursorOn(void);
 void blinkOn(void);
-void clearLCD(void);
 
 #endif /* INC_LCD_H_ */
