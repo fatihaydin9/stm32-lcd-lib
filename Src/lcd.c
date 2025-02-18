@@ -160,3 +160,8 @@ void clearDisp(void)
 {
 	sendCommand(0x08 | 0x04 | 0x00);
 }
+
+void setDisplay(lcdDispSetting_t dispSetting)
+{
+	sendCommand(0x08 | (dispSetting & 0x07));
+}

@@ -42,14 +42,6 @@
 #define LCD_ENTRYSHIFTINCREMENT 0x01
 #define LCD_ENTRYSHIFTDECREMENT 0x00
 
-// flags for display on/off control
-#define LCD_DISPLAYON   0x04
-#define LCD_DISPLAYOFF  0x00
-#define LCD_CURSORON    0x02
-#define LCD_CURSOROFF   0x00
-#define LCD_BLINKON     0x01
-#define LCD_BLINKOFF    0x00
-
 // flags for display/cursor shift
 #define LCD_DISPLAYMOVE 0x08
 #define LCD_CURSORMOVE  0x00
@@ -64,6 +56,15 @@
 #define LCD_5x10DOTS    0x04
 #define LCD_5x8DOTS     0x00
 
+// ----- Flags for display/cursor/blink on/off control ----- //
+typedef enum{
+    LCD_DISPLAYON   = 0x04,
+    LCD_DISPLAYOFF  = 0x00,
+    LCD_CURSORON    = 0x02,
+    LCD_CURSOROFF   = 0x00,
+    LCD_BLINKON     = 0x01,
+    LCD_BLINKOFF    = 0x00
+}lcdDispSetting_t;
 
 // ===== Functions ===== //
 void initLCD(void);
@@ -78,5 +79,11 @@ void blinkOn(void);
   * @brief Clears the cursor and the blink bits.
   */
 void clearDisp(void);
+
+/**
+  * @brief To set or reset the display/cursor/blink bits.
+  * @param dispSetting Use or(|) operation to set multiple bit.
+  */
+void setDisplay(lcdDispSetting_t dispSetting);
 
 #endif /* INC_LCD_H_ */
