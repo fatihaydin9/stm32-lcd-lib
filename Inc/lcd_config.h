@@ -1,6 +1,14 @@
 #ifndef INC_LCD_CONFIG_H_
 #define INC_LCD_CONFIG_H_
 
+// Choose a microcontroller family
+//#define STM32F0
+//#define STM32F1
+#define STM32F3
+//#define STM32F4
+//#define STM32F7
+
+
 /* CONFIG FOR LIBRARY USER */
 #define GPIO_PORT GPIOC
 
