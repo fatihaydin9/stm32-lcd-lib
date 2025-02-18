@@ -11,7 +11,8 @@
 char display_settings;
 
 //Sending falling edge signal to EPin for waking up LCD
-static void fallingEdge(void) {
+static void fallingEdge(void)
+{
     HAL_GPIO_WritePin(GPIO_PORT, E_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIO_PORT, E_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIO_PORT, E_Pin, GPIO_PIN_RESET);
@@ -19,7 +20,8 @@ static void fallingEdge(void) {
 }
 
 #ifndef LCD8Bit
-	static void send4Bits(char data) {
+	static void send4Bits(char data)
+	{
 		HAL_GPIO_WritePin(GPIO_PORT, DATA5_Pin, SET_IF(data&0x01));
 		HAL_GPIO_WritePin(GPIO_PORT, DATA6_Pin, SET_IF(data&0x02));
 		HAL_GPIO_WritePin(GPIO_PORT, DATA7_Pin, SET_IF(data&0x04));
@@ -30,7 +32,8 @@ static void fallingEdge(void) {
 #endif
 
 #ifdef LCD8Bit
-	static void send8Bits(char val) {
+	static void send8Bits(char val)
+	{
 
 		HAL_GPIO_WritePin(GPIO_PORT, DATA1_Pin, SET_IF(val&0x01));
 		HAL_GPIO_WritePin(GPIO_PORT, DATA2_Pin, SET_IF(val&0x02));
@@ -45,7 +48,8 @@ static void fallingEdge(void) {
 	}
 #endif
 
-static void sendCommand(char cmd) {
+static void sendCommand(char cmd)
+{
 	#ifdef LCD8Bit
     	HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, GPIO_PIN_RESET);
 		send8Bits(cmd);
@@ -56,7 +60,8 @@ static void sendCommand(char cmd) {
 	#endif
 }
 
-static void sendData(char data) {
+static void sendData(char data)
+{
 	#ifdef LCD8Bit
     	HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, GPIO_PIN_SET);
 		send8Bits(data);
@@ -67,22 +72,27 @@ static void sendData(char data) {
 	#endif
 }
 
-void clearLCD(void) {
+void clearLCD(void)
+{
 	sendCommand(LCD_CLEARDISPLAY);
 	HAL_Delay(5);
 }
 
-void putLCD(char c) {
+void putLCD(char c)
+{
 	sendData(c);
 }
 
-void writeLCD (char *str) {
-	for(; *str != 0; ++str) {
+void writeLCD (char *str)
+{
+	for(; *str != 0; ++str)
+	{
 		sendData(*str);
 	}
 }
 
-void initLCD(void) {
+void initLCD(void)
+{
     HAL_GPIO_WritePin(GPIO_PORT, E_Pin,  	 GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIO_PORT, RS_Pin, 	 GPIO_PIN_RESET);
 
@@ -117,29 +127,36 @@ void initLCD(void) {
 		display_settings =  LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
 		sendCommand(LCD_ENTRYMODESET | display_settings);
 		HAL_Delay(2);
-
 }
 
 
-void setCursor(char x, char y) {
-
+void setCursor(char x, char y)
+{
 	uint8_t base = 0;
 
-	if(y==1) {
+	if(y == 1)
+	{
 		base = 0x40;
-	}else {
+	}
+	else
+	{
 		base = 0;
 	}
 
 	sendCommand( 0x80 | (base + x));
-
-
 }
 
-void cursorOn(void) {
+void cursorOn(void)
+{
 	sendCommand(0x08 | 0x04 | 0x02);
 }
 
-void blinkOn(void) {
+void blinkOn(void)
+{
 	sendCommand(0x08 | 0x04 | 0x01);
+}
+
+void clearDisp(void)
+{
+	sendCommand(0x08 | 0x04 | 0x00);
 }

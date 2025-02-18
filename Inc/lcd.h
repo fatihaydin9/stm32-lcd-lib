@@ -74,4 +74,9 @@ void setCursor(char x,char y);
 void cursorOn(void);
 void blinkOn(void);
 
+/**
+  * @brief Clears the cursor and the blink bits.
+  */
+void clearDisp(void);
+
 #endif /* INC_LCD_H_ */
